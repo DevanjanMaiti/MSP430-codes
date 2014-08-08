@@ -1,0 +1,21 @@
+// The pin P1.0 has been chosen for output so that the attached LED on the Launchpad also can be simultaneously used
+
+#include <msp430g2553.h>
+
+void main (void)
+{
+WDTCTL = WDTPW | WDTHOLD; // Swtich off the watchdog timer
+P1DIR=0xFF; // Setting entire port 1 as output port
+
+while(1) // Infinite loop
+{
+	if((P2IN & BIT0) == 0x01) // If input on the input pin is HIGH (switch open)
+	{
+		P1OUT = 0x00; // Turn OFF alarm
+	}
+	else if((P2IN & BIT0) == 0x00) // If input on the input pin is LOW (switch closed)
+	{
+		P1OUT = 0x01; // Turn ON alarm
+	}
+}
+}
